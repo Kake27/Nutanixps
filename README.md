@@ -14,8 +14,8 @@ An AI-powered Git commit message generator that helps you write better commit me
 
 1. Clone this repository:
 bash
-git clone https://github.com/yourusername/git-commit-ai.git
-cd git-commit-ai
+git clone https://github.com/divyansh-cyber/Nutanixps.git
+cd Nutanixps
 
 
 2. Create a virtual environment and activate it:
