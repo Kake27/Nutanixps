@@ -1,66 +1,70 @@
-# Nutanixps
-# Git Commit AI
+# FlightPredict React Application
 
-An AI-powered Git commit message generator that helps you write better commit messages automatically.
+A modern React application for predicting flight prices using machine learning models.
 
 ## Features
 
-- Automatically generates commit message suggestions based on your staged changes
-- Interactive CLI interface for selecting or editing commit messages
-- Seamless Git integration
-- Beautiful terminal UI with rich formatting
+- Beautiful, responsive UI with smooth animations
+- Real-time flight price prediction
+- Interactive form for flight details
+- Modern design with glassmorphism effects
+
+## Prerequisites
+
+- Node.js (v14.0.0 or higher)
+- npm (v6.0.0 or higher)
 
 ## Installation
 
-1. Clone this repository:
-bash
-git clone https://github.com/divyansh-cyber/Nutanixps.git
-cd Nutanixps
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd flightpredict-react
+```
 
+2. Install dependencies:
+```bash
+npm install
+```
 
-2. Create a virtual environment and activate it:
-bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+3. Start the development server:
+```bash
+npm start
+```
 
+The application will open in your default browser at `http://localhost:3000`.
 
-3. Install dependencies:
-bash
-pip install -r requirements.txt
+## Technologies Used
 
+- React.js
+- React Router
+- Styled Components
+- Framer Motion
+- React Hooks
 
-4. Create a `.env` file in the project root and add your Cursor.ai API key:
+## Project Structure
 
-CURSOR_AI_API_KEY=your_api_key_here
-
-
-## Usage
-
-1. Stage your changes as usual:
-bash
-git add .
-
-
-2. Run the commit message generator:
-bash
-python git_commit_ai.py
-
-
-3. Choose from the generated suggestions, edit the message, or generate new suggestions.
-
-## Git Hook Integration (Optional)
-
-To automatically use this tool before each commit, you can set up a Git hook:
-
-1. Create a pre-commit hook:
-bash
-cp git_commit_ai.py .git/hooks/pre-commit
-chmod +x .git/hooks/pre-commit
-
+```
+flightpredict-react/
+├── src/
+│   ├── components/
+│   │   ├── HomePage.js
+│   │   └── InputPage.js
+│   ├── styles/
+│   │   └── GlobalStyle.js
+│   ├── App.js
+│   └── index.js
+├── public/
+└── package.json
+```
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
 
