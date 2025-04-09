@@ -1,127 +1,60 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
-const Container = styled(motion.div)`
-  max-width: 800px;
-  margin: 4rem auto;
-  padding: 2rem;
-  position: relative;
-  z-index: 1;
-`;
-
-const Form = styled(motion.form)`
-  background: rgba(255, 255, 255, 0.9);
-  padding: 3rem;
-  border-radius: 30px;
-  box-shadow: ${props => props.theme.shadows.card};
-`;
-
-const Title = styled.h1`
-  color: ${props => props.theme.colors.primary};
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2.5rem;
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 2rem;
-`;
-
-const Label = styled.label`
-  display: block;
-  margin-bottom: 0.5rem;
-  color: ${props => props.theme.colors.text};
-  font-size: 1.1rem;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: 1rem;
-  border: 2px solid ${props => props.theme.colors.secondary};
-  border-radius: 10px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-
-  &:focus {
-    outline: none;
-    border-color: ${props => props.theme.colors.primary};
-    box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
-  }
-`;
-
-const Select = styled.select`
-  width: 100%;
-  padding: 1rem;
-  border: 2px solid ${props => props.theme.colors.secondary};
-  border-radius: 10px;
-  font-size: 1rem;
-  background: white;
-  transition: all 0.3s ease;
-
-  &:focus {
-    outline: none;
-    border-color: ${props => props.theme.colors.primary};
-    box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
-  }
-`;
-
-const Button = styled(motion.button)`
-  background: linear-gradient(135deg, ${props => props.theme.colors.primary}, ${props => props.theme.colors.secondary});
-  border: none;
-  padding: 1.2rem 2.5rem;
-  color: white;
-  font-size: 1.3rem;
-  border-radius: 40px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: ${props => props.theme.shadows.button};
-  width: 100%;
+const ConnectingCitiesContainer = styled(motion.div)`
   margin-top: 1rem;
-
-  &:hover {
-    transform: scale(1.05);
-    background: linear-gradient(135deg, ${props => props.theme.colors.secondary}, ${props => props.theme.colors.primary});
-  }
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 15px;
+  border: 1px dashed ${props => props.theme.colors.secondary};
 `;
 
-const BackButton = styled(motion.button)`
-  background: transparent;
-  border: 2px solid ${props => props.theme.colors.primary};
+const ConnectingCityTitle = styled.h3`
   color: ${props => props.theme.colors.primary};
-  padding: 0.8rem 2rem;
-  font-size: 1.1rem;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 2rem;
-  width: 100%;
-
-  &:hover {
-    background: ${props => props.theme.colors.primary};
-    color: white;
-  }
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
 `;
 
-const RadioGroup = styled.div`
+const ConnectingCityRow = styled.div`
   display: flex;
-  gap: 2rem;
-  margin-top: 0.5rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
 `;
 
-const RadioLabel = styled.label`
+const ConnectingCityInput = styled(Input)`
+  flex: 1;
+`;
+
+const AddButton = styled(motion.button)`
+  background: ${props => props.theme.colors.secondary};
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  font-size: 1.5rem;
   cursor: pointer;
-  color: ${props => props.theme.colors.text};
-  font-size: 1rem;
+  margin-top: 1rem;
+  align-self: center;
 `;
 
-const RadioInput = styled.input`
-  width: 1.2rem;
-  height: 1.2rem;
+const RemoveButton = styled(motion.button)`
+  background: #ff5252;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
   cursor: pointer;
 `;
 
@@ -133,7 +66,8 @@ const InputPage = () => {
     date: '',
     passengers: '1',
     class: 'economy',
-    isDirectFlight: 'yes'
+    isDirectFlight: 'yes',
+    connectingCities: [{ city: '' }]
   });
 
   const handleChange = (e) => {
@@ -141,6 +75,31 @@ const InputPage = () => {
     setFormData(prev => ({
       ...prev,
       [name]: type === 'radio' ? value : value
+    }));
+  };
+
+  const handleConnectingCityChange = (index, value) => {
+    setFormData(prev => {
+      const newConnectingCities = [...prev.connectingCities];
+      newConnectingCities[index] = { city: value };
+      return {
+        ...prev,
+        connectingCities: newConnectingCities
+      };
+    });
+  };
+
+  const addConnectingCity = () => {
+    setFormData(prev => ({
+      ...prev,
+      connectingCities: [...prev.connectingCities, { city: '' }]
+    }));
+  };
+
+  const removeConnectingCity = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      connectingCities: prev.connectingCities.filter((_, i) => i !== index)
     }));
   };
 
@@ -214,6 +173,53 @@ const InputPage = () => {
               Connecting Flight
             </RadioLabel>
           </RadioGroup>
+          
+          <AnimatePresence>
+            {formData.isDirectFlight === 'no' && (
+              <ConnectingCitiesContainer
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ConnectingCityTitle>Connecting Cities</ConnectingCityTitle>
+                <p style={{ marginBottom: '1rem', fontSize: '0.9rem', color: '#666' }}>
+                  Specify the cities where your flight will stop before reaching your destination.
+                </p>
+                
+                {formData.connectingCities.map((city, index) => (
+                  <ConnectingCityRow key={index}>
+                    <ConnectingCityInput
+                      type="text"
+                      value={city.city}
+                      onChange={(e) => handleConnectingCityChange(index, e.target.value)}
+                      placeholder={`Connecting city ${index + 1}`}
+                      required
+                    />
+                    {index > 0 && (
+                      <RemoveButton
+                        type="button"
+                        onClick={() => removeConnectingCity(index)}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        ×
+                      </RemoveButton>
+                    )}
+                  </ConnectingCityRow>
+                ))}
+                
+                <AddButton
+                  type="button"
+                  onClick={addConnectingCity}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  +
+                </AddButton>
+              </ConnectingCitiesContainer>
+            )}
+          </AnimatePresence>
         </FormGroup>
 
         <FormGroup>
@@ -273,4 +279,4 @@ const InputPage = () => {
   );
 };
 
-export default InputPage; 
+export default InputPage;
