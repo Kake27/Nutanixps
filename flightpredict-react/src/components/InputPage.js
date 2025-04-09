@@ -104,6 +104,27 @@ const BackButton = styled(motion.button)`
   }
 `;
 
+const RadioGroup = styled.div`
+  display: flex;
+  gap: 2rem;
+  margin-top: 0.5rem;
+`;
+
+const RadioLabel = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: ${props => props.theme.colors.text};
+  font-size: 1rem;
+`;
+
+const RadioInput = styled.input`
+  width: 1.2rem;
+  height: 1.2rem;
+  cursor: pointer;
+`;
+
 const InputPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -111,14 +132,15 @@ const InputPage = () => {
     destination: '',
     date: '',
     passengers: '1',
-    class: 'economy'
+    class: 'economy',
+    isDirectFlight: 'yes'
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: type === 'radio' ? value : value
     }));
   };
 
@@ -166,6 +188,32 @@ const InputPage = () => {
             placeholder="Enter destination city"
             required
           />
+        </FormGroup>
+
+        <FormGroup>
+          <Label>Flight Type</Label>
+          <RadioGroup>
+            <RadioLabel>
+              <RadioInput
+                type="radio"
+                name="isDirectFlight"
+                value="yes"
+                checked={formData.isDirectFlight === 'yes'}
+                onChange={handleChange}
+              />
+              Direct Flight
+            </RadioLabel>
+            <RadioLabel>
+              <RadioInput
+                type="radio"
+                name="isDirectFlight"
+                value="no"
+                checked={formData.isDirectFlight === 'no'}
+                onChange={handleChange}
+              />
+              Connecting Flight
+            </RadioLabel>
+          </RadioGroup>
         </FormGroup>
 
         <FormGroup>
