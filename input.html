@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FlightPredict - Book Smart</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: url('https://images.unsplash.com/photo-1603522830343-3c330ab81542?q=80&w=1932&auto=format&fit=crop') no-repeat center center fixed;
+      background-size: cover;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      backdrop-filter: blur(8px);
+      background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .logo-space {
+      width: 160px;
+      height: 160px;
+      margin: 3rem auto 2rem auto;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.4s ease;
+      z-index: 1;
+      position: relative;
+    }
+
+    .logo-space:hover {
+      transform: scale(1.15);
+    }
+
+    .logo-space img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .form-container {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 3rem 2rem;
+      border-radius: 30px;
+      max-width: 700px;
+      width: 90%;
+      margin: 2rem auto 5rem auto;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+      animation: fadeInForm 1.5s ease;
+    }
+
+    form label {
+      font-size: 1.2rem;
+      color: #333;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    form select,
+    form input[type="date"] {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      border: 2px solid #ccc;
+      border-radius: 20px;
+      margin-bottom: 2rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+      background-color: white;
+      appearance: none;
+    }
+
+    form select:hover,
+    form input[type="date"]:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 8px rgba(26, 35, 126, 0.2);
+    }
+
+    form select:focus,
+    form input[type="date"]:focus {
+      border-color: #1a237e;
+      box-shadow: 0 0 10px rgba(26, 35, 126, 0.3);
+      outline: none;
+    }
+
+    .form-button {
+      display: flex;
+      justify-content: center;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #1a237e, #3949ab);
+      border: none;
+      padding: 1rem 2.5rem;
+      color: white;
+      font-size: 1.2rem;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 8px 20px rgba(26, 35, 126, 0.4);
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, #3949ab, #1a237e);
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeInForm {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-space">
+    <img src="https://i.ibb.co/8DnG3Cmf/Chat-GPT-Image-Apr-9-2025-08-47-48-AM.png" alt="Logo">
+  </div>
+
+  <div class="form-container">
+    <form>
+      <label for="from">From:</label>
+      <select id="from" required>
+        <option value="" disabled selected>Select departure airport</option>
+        <option value="DEL">Delhi (DEL)</option>
+        <option value="BOM">Mumbai (BOM)</option>
+        <option value="BLR">Bengaluru (BLR)</option>
+        <option value="HYD">Hyderabad (HYD)</option>
+        <option value="MAA">Chennai (MAA)</option>
+        <option value="CCU">Kolkata (CCU)</option>
+        <option value="PNQ">Pune (PNQ)</option>
+        <option value="GOI">Goa (GOI)</option>
+        <option value="AMD">Ahmedabad (AMD)</option>
+        <option value="COK">Kochi (COK)</option>
+      </select>
+
+      <label for="to">To:</label>
+      <select id="to" required>
+        <option value="" disabled selected>Select arrival airport</option>
+        <option value="DEL">Delhi (DEL)</option>
+        <option value="BOM">Mumbai (BOM)</option>
+        <option value="BLR">Bengaluru (BLR)</option>
+        <option value="HYD">Hyderabad (HYD)</option>
+        <option value="MAA">Chennai (MAA)</option>
+        <option value="CCU">Kolkata (CCU)</option>
+        <option value="PNQ">Pune (PNQ)</option>
+        <option value="GOI">Goa (GOI)</option>
+        <option value="AMD">Ahmedabad (AMD)</option>
+        <option value="COK">Kochi (COK)</option>
+      </select>
+
+      <label for="departure">Date of Departure:</label>
+      <input type="date" id="departure" required />
+
+      <div class="form-button">
+        <button class="btn" type="submit">Predict Price</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
