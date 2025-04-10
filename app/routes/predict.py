@@ -21,15 +21,26 @@ async def predict(request: PredictionRequest):
     try:
         print(f"Received prediction request: {request}")
         # Calculate days until departure
-        departure_date = datetime.strptime(request.departure, "%Y-%m-%d")
-        days_left = (departure_date - datetime.now()).days
-        print(f"Days until departure: {days_left}")
+        try:
+            departure_date = datetime.strptime(request.departure, "%Y-%m-%d")
+            days_left = (departure_date - datetime.now()).days
+            print(f"Days until departure: {days_left}")
+        except ValueError as e:
+            print(f"Error during prediction: {str(e)}")
+            raise HTTPException(status_code=422, detail="Invalid date format. Please use YYYY-MM-DD")
         
         # Filter flights
         current_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         print(f"Current directory: {current_dir}")
-        filter_flights(request.from_city, request.to_city)
-        print("Filtered flights based on source and destination.")
+        try:
+            filter_flights(request.from_city, request.to_city)
+            print("Filtered flights based on source and destination.")
+        except ValueError as e:
+            print(f"Error during prediction: {str(e)}")
+            raise HTTPException(status_code=404, detail=str(e))
+        except FileNotFoundError as e:
+            print(f"File not found error: {str(e)}")
+            raise HTTPException(status_code=404, detail=f"Required file not found: {str(e)}")
 
         # Encode features
         encoded_row = encode_features(days_left)
@@ -57,9 +68,8 @@ async def predict(request: PredictionRequest):
 
         return {"predicted_price": prediction.tolist()[0]}
 
-    except FileNotFoundError as e:
-        print(f"File not found error: {str(e)}")
-        raise HTTPException(status_code=404, detail=f"Required file not found: {str(e)}")
+    except HTTPException:
+        raise
     except Exception as e:
         print(f"Error during prediction: {str(e)}")
         print(traceback.format_exc())
