@@ -54,7 +54,7 @@ async def predict(from_city: str, to_city: str, days: int):
 
         df = pd.read_csv(os.path.join(current_dir, "available.csv"))
         
-        prices = [int(int(i)+random.randint(1000, 2500)) for i in prediction]
+        prices = [int(i) for i in prediction]
         df["predicted_fare"] = prices
 
         df.sort_values(by="predicted_fare", ascending=True, inplace=True)
