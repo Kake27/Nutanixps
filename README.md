@@ -80,7 +80,7 @@ pip install -r requirements.txt
 1. Start the Backend Server:
 ```bash
 cd nutanix-backend
-python run_servers.py
+uvicorn server:app --reload
 ```
 
 2. Start the Frontend Development Server:
