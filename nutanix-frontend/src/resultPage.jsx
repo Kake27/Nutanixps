@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import {Line} from 'react-chartjs-2'
+import { Chart as ChartJS, LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Legend } from "chart.js";
+
+ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Legend);
+
+
 
 const ResultPage = () => {
   const location = useLocation();
@@ -7,6 +13,20 @@ const ResultPage = () => {
   const [prediction, setPrediction] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const [chartData, setChartData] = useState({
+    labels: [], 
+    datasets: [
+      {
+        label: "Predicted Price",
+        data: [], 
+        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderWidth: 2,
+        tension: 0.4, 
+      },
+    ],
+  });
 
   useEffect(() => {
     const fetchPrediction = async () => {
@@ -36,10 +56,50 @@ const ResultPage = () => {
         }
 
         const data = await response.json();
-        console.log(data)
+        // console.log(data)
         
+
+        const graph_response = await fetch('http://127.0.0.1:8000/graphs/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData),
+        });
+
+        if (!graph_response.ok) {
+          const errorData = await graph_response.json();
+          throw new Error(errorData.detail || 'Failed to fetch prediction');
+        }
+
+        const graph_data = await graph_response.json();
+        console.log(graph_data)
+
+        const dates = graph_data.graph_predictions.map((item)=>item.date)
+        const prices = graph_data.graph_predictions.map((item)=>item.price)
+
+        try{
+          setChartData({
+            labels: dates,
+            datasets: [
+              {
+                label: "Predicted Price",
+                data: prices,
+                borderColor: "rgba(75, 192, 192, 1)",
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                borderWidth: 2,
+                tension: 0.4,
+              },
+            ],
+          });
+        }
+        catch(err){
+          console.error('Error in graph data:', err);
+        }
+
         setPrediction(data);
         setLoading(false);
+
       } catch (err) {
         console.error('Prediction error:', err);
         setError(err.message);
@@ -116,6 +176,11 @@ const ResultPage = () => {
             <p className="text-3xl font-bold text-green-700 text-center">
               ₹{prediction?.predicted_price?.toLocaleString()}
             </p>
+          </div>
+
+          <div className="w-full max-w-4xl mx-auto mt-8">
+            <h2 className="text-center text-2xl font-semibold mb-4">Predicted Flight Prices Over Time</h2>
+            <Line data={chartData} />
           </div>
 
           <div className="flex justify-center space-x-4">
