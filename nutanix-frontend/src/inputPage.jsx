@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const FlightPredictForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ from: "", to: "", departure: "" });
 
   const handleChange = (e) => {
@@ -9,7 +11,7 @@ const FlightPredictForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    navigate('/result', { state: { formData } });
   };
 
   return (
