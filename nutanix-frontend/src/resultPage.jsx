@@ -11,22 +11,35 @@ const ResultPage = () => {
   useEffect(() => {
     const fetchPrediction = async () => {
       try {
-        const response = await fetch('http://localhost:5000/predict', {
+        const formData = location.state?.formData;
+        if (!formData) {
+          throw new Error('No form data available');
+        }
+
+        const requestData = {
+          from_city: formData.from,
+          to_city: formData.to,
+          departure: formData.departure
+        };
+
+        const response = await fetch('http://localhost:8000/predict/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(location.state?.formData),
+          body: JSON.stringify(requestData),
         });
 
         if (!response.ok) {
-          throw new Error('Failed to fetch prediction');
+          const errorData = await response.json();
+          throw new Error(errorData.detail || 'Failed to fetch prediction');
         }
 
         const data = await response.json();
         setPrediction(data);
         setLoading(false);
       } catch (err) {
+        console.error('Prediction error:', err);
         setError(err.message);
         setLoading(false);
       }
