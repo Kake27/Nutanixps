@@ -46,10 +46,6 @@ const FlightPredictForm = () => {
                 <option value="HYD">Hyderabad (HYD)</option>
                 <option value="MAA">Chennai (MAA)</option>
                 <option value="CCU">Kolkata (CCU)</option>
-                <option value="PNQ">Pune (PNQ)</option>
-                <option value="GOI">Goa (GOI)</option>
-                <option value="AMD">Ahmedabad (AMD)</option>
-                <option value="COK">Kochi (COK)</option>
                 </select>
             </div>
 

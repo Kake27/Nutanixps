@@ -22,7 +22,7 @@ const ResultPage = () => {
           departure: formData.departure
         };
 
-        const response = await fetch('http://localhost:8000/predict/', {
+        const response = await fetch('http://127.0.0.1:8000/predict/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -36,6 +36,8 @@ const ResultPage = () => {
         }
 
         const data = await response.json();
+        console.log(data)
+        
         setPrediction(data);
         setLoading(false);
       } catch (err) {
@@ -119,13 +121,13 @@ const ResultPage = () => {
           <div className="flex justify-center space-x-4">
             <button
               onClick={() => navigate('/input')}
-              className="px-6 py-3 bg-indigo-900 text-white text-lg rounded-full shadow-lg hover:scale-105 transition-transform"
+              className="px-6 py-3 bg-indigo-900 text-white text-lg rounded-full shadow-lg hover:scale-105 transition-transform hover:cursor-pointer"
             >
               New Prediction
             </button>
             <button
               onClick={() => navigate('/')}
-              className="px-6 py-3 bg-gray-600 text-white text-lg rounded-full shadow-lg hover:scale-105 transition-transform"
+              className="px-6 py-3 bg-gray-600 text-white text-lg rounded-full shadow-lg hover:scale-105 transition-transform hover:cursor-pointer"
             >
               Home
             </button>
