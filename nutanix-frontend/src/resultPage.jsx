@@ -42,6 +42,10 @@ const ResultPage = () => {
           departure: formData.departure
         };
 
+        if(requestData.from_city === requestData.to_city){
+          throw new Error('Departure and Arrival cities cannot be the same!');
+        }
+
         const response = await fetch('http://127.0.0.1:8000/predict/', {
           method: 'POST',
           headers: {
