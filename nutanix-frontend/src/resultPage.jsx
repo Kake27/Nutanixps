@@ -46,7 +46,7 @@ const ResultPage = () => {
           throw new Error('Departure and Arrival cities cannot be the same!');
         }
 
-        const response = await fetch('http://127.0.0.1:8000/predict/', {
+        const response = await fetch('https://nutanixps.onrender.com/predict/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const ResultPage = () => {
         // console.log(data)
         
 
-        const graph_response = await fetch('http://127.0.0.1:8000/graphs/', {
+        const graph_response = await fetch('https://nutanixps.onrender.com/graphs/', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
