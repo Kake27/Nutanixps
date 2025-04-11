@@ -75,10 +75,23 @@ const ResultPage = () => {
         const graph_data = await graph_response.json();
         console.log(graph_data)
 
-        const dates = graph_data.graph_predictions.map((item)=>item.date)
-        const prices = graph_data.graph_predictions.map((item)=>item.price)
-
-        try{
+        const dates = graph_data.graph_predictions.map((item) => item.date);
+        const prices = graph_data.graph_predictions.map((item) => item.price);
+        
+        try {
+          const lowestEntry = graph_data.graph_predictions.reduce((min, curr) =>
+            curr.price < min.price ? curr : min
+          );
+        
+          data.predicted_price = lowestEntry.price;
+          data.predicted_date = lowestEntry.date;
+        } catch (error) {
+          console.error('Error finding lowest predicted price:', error);
+          data.predicted_price = null;
+          data.predicted_date = null;
+        }
+        
+        try {
           setChartData({
             labels: dates,
             datasets: [
@@ -92,10 +105,10 @@ const ResultPage = () => {
               },
             ],
           });
-        }
-        catch(err){
+        } catch (err) {
           console.error('Error in graph data:', err);
         }
+        
 
         setPrediction(data);
         setLoading(false);
@@ -172,9 +185,12 @@ const ResultPage = () => {
           </div>
 
           <div className="bg-green-50 p-6 rounded-xl">
-            <h3 className="text-xl font-semibold text-green-900 mb-4">Predicted Price</h3>
+            <h3 className="text-xl font-semibold text-green-900 mb-4 text-center">
+              The Price is expected to be lowest:-
+            </h3>
+
             <p className="text-3xl font-bold text-green-700 text-center">
-              ₹{prediction?.predicted_price?.toLocaleString()}
+              ₹{prediction?.predicted_price?.toLocaleString()} on {new Date(prediction?.predicted_date).toLocaleDateString()}
             </p>
           </div>
 

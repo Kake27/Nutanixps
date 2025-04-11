@@ -18,5 +18,5 @@ app.include_router(graph_router)
 
 @app.get("/")
 async def root():
-    return {"message": "Whalecum to the backrooms mf"}
+    return {"message": "Server Active, all systems fully operational..."}
 
