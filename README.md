@@ -1,3 +1,4 @@
+the app can be visited at https://nutanixps.vercel.app/
 # Flight Price Prediction System
 
 A full-stack application for predicting flight prices using machine learning models and visualizing price trends through interactive graphs.
